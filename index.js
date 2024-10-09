@@ -1,26 +1,18 @@
-//  Задание 1
+//  Задание 1.
+
+// 1. Переменную count добавляла для того, чтобы вызывать resolve после того, как все промисы будут выполнены.
+// 2. А переменную promise, чтобы можно было обрабатывать значения, которые не являются промисами. Так как это возможность
+// есть в Promise.all
 
 function myPromiseAll(promises) {
     const responses = [];
-    let count = 0;
 
     return new Promise((resolve, reject)=> {
         promises.map((item, index)=> {
-            let promise = item;
-
-            if (!(item instanceof Promise)) {
-                promise = Promise.resolve(item);
-            }
-
-            promise.then((data)=> {
+            item.then((data)=> {
                 responses[index] = data;
-                count ++;
-
-                if (promises.length === count) {
-                    resolve(responses);
-                }
-            }).then()
-                .catch(e => {
+                resolve(responses);
+            }).catch(e => {
                 reject(e)
             })
         })
@@ -43,4 +35,3 @@ async function getPerson(id) {
     }
 }
 
-getPerson(1);
